@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #1a1a1a;
+}
+
+.login-container {
+    background: #ffffff;
+    padding: 48px 32px;
+    width: 100%;
+    max-width: 380px;
+    border: 1px solid #f0f0f0;
+    border-radius: 16px;
+}
+
+.back-link {
+    display: inline-block;
+    color: #712276;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 24px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.back-link:hover {
+    opacity: 1;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
+
+.welcome-text {
+    color: #6b7280;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 36px;
+}
+
+.messages {
+    margin-bottom: 24px;
+}
+
+.message {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+input {
+    padding: 14px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fafbfc;
+}
+
+input:focus {
+    outline: none;
+    border-color: #712276;
+    box-shadow: 0 0 0 3px rgba(113, 34, 118, 0.08);
+}
+
+button {
+    background: #712276;
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #5a1d62;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 28px;
+    padding-top: 24px;
+    position: relative;
+    font-size: 14px;
+}
+
+.register-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.register-link p {
+    color: #6b7280;
+    margin: 0;
+}
+
+.register-link a {
+    color: #712276;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 40px 24px;
+        margin: 10px;
+    }
+}

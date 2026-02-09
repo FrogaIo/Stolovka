@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - DreamsDiary</title>
+    <link rel="stylesheet" href="{% static 'css/UserService/register.css'%}" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <a href="/" class="back-link">← Назад</a>
+        
+        <h2>Добро пожаловать</h2>
+        <p class="welcome-text">Зарегистрируйтесь, чтобы начать</p>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Имя</label>
+                <input type="text" id="name" name="name" placeholder="Frogalo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Frogalo@love_react.ru" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <div class="form-group">
+                <label for="Repeat_password">Повторите пароль</label>
+                <input type="password" id="Repeat_password" name="Repeat_password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+
+        <div class="login-link">
+            <p>Уже есть аккаунт? <a href="/login/">Войти</a></p>
+        </div>
+    </div>
+</body>
+</html>

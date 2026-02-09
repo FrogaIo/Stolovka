@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Столовка - Добавить Меню на неделю</title>
+    <link rel="stylesheet" href="{% static 'css/MenuService/home.css'%}" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <h3>Обед</h3>
+        <label>Суп</label>
+        <input type="text" name="soup" placeholder="Суп" required>
+        
+        <label>Второе</label>
+        <input type="text" name="main" placeholder="Второе блюдо" required>
+        
+        <label>Салат</label>
+        <input type="text" name="salad" placeholder="Салат" required>
+        
+        <label>Напиток (обед)</label>
+        <input type="text" name="lunch_drink" placeholder="Напиток" required>
+        
+        <h3>Завтрак</h3>
+        <label>Первое блюдо</label>
+        <input type="text" name="first_dish" placeholder="Первое блюдо" required>
+        
+        <label>Напиток (завтрак)</label>
+        <input type="text" name="breakfast_drink" placeholder="Напиток" required>
+        
+        <label>День недели</label>
+        <select name="weekday" required>
+            <option value="Понедельник">Понедельник</option>
+            <option value="Вторник">Вторник</option>
+            <option value="Среда">Среда</option>
+            <option value="Четверг">Четверг</option>
+            <option value="Пятница">Пятница</option>
+        </select>
+        
+        <button type="submit">Добавить</button>
+    </form>
+
+</body>
+</html>

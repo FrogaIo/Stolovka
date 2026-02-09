@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.logo {
+    font-size: 40px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #712276 0%, #5a1d62 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.week-title {
+    font-size: 20px;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 60px;
+}
+
+.day-card {
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.2s;
+}
+
+.day-card:hover {
+    border-color: #712276;
+    box-shadow: 0 12px 32px rgba(113, 34, 118, 0.1);
+    transform: translateY(-2px);
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.day-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.day-date {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.meal-section {
+    margin-bottom: 24px;
+}
+
+.meal-section:last-child {
+    margin-bottom: 0;
+}
+
+.meal-header {
+    font-size: 15px;
+    font-weight: 500;
+    color: #712276;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meal-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.meal-item {
+    font-size: 14px;
+    color: #374151;
+    padding: 8px 12px;
+    background: #fafbfc;
+    border-radius: 8px;
+    border-left: 3px solid #712276;
+}
+
+.no-menu {
+    font-size: 14px;
+    color: #9ca3af;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+.time-badge {
+    background: #712276;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .calendar {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .day-card {
+        padding: 24px 20px;
+    }
+}
