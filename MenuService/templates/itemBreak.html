@@ -4,45 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Столовка - Завтрак</title>
+    <title>Завтрак — Столовка</title>
     <link rel="stylesheet" href="{% static 'css/MenuService/item.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header">
+            <a href="/menu/" class="back-link">← Назад к меню</a>
             <h1 class="logo">Столовка</h1>
             <p class="week-title">Завтрак</p>
-        </div>
+        </header>
 
-        <div class="meal-detail">
-            <div class="meal-card">
+        <main class="meal-detail">
+            <article class="meal-card">
                 <h2 class="meal-title">Меню завтрака</h2>
                 
-                <div class="meal-items-detail">
-                    {% if breakfast.first_dish %}
-                    <div class="meal-item-detail">
-                        <span class="item-label">🥣 Первое блюдо:</span>
-                        <span class="item-value">{{ breakfast.first_dish }}</span>
-                    </div>
-                    {% endif %}
+                {% if breakfast.first_dish or breakfast.drink %}
+                    <div class="meal-items-detail">
+                        {% if breakfast.first_dish %}
+                        <div class="meal-item-detail">
+                            <span class="item-label">Блюдо</span>
+                            <span class="item-value">{{ breakfast.first_dish }}</span>
+                        </div>
+                        {% endif %}
 
-                    {% if breakfast.drink %}
-                    <div class="meal-item-detail">
-                        <span class="item-label">🥤 Напиток:</span>
-                        <span class="item-value">{{ breakfast.drink }}</span>
+                        {% if breakfast.drink %}
+                        <div class="meal-item-detail">
+                            <span class="item-label">Напиток</span>
+                            <span class="item-value">{{ breakfast.drink }}</span>
+                        </div>
+                        {% endif %}
                     </div>
-                    {% endif %}
-                    
-                    {% if not breakfast.first_dish and not breakfast.drink %}
-                    <div class="no-menu">Меню завтрака пока не установлено</div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+                {% else %}
+                    <p class="no-menu">Меню завтрака пока не установлено</p>
+                {% endif %}
+            </article>
+        </main>
 
-        <div class="comments-section">
-            <h3 class="section-title">Комментарии</h3>
+        <section class="comments-section">
+            <h3 class="section-title">Отзывы</h3>
             
             <div class="comment-form">
                 <form method="post">
@@ -50,28 +51,30 @@
                     <div class="form-group">
                         <textarea 
                             name="comment" 
-                            placeholder="Оставьте ваш отзыв о завтраке..." 
-                            rows="4"
+                            placeholder="Поделитесь мнением о завтраке..." 
+                            rows="3"
                             required
                         ></textarea>
                     </div>
-                    <button type="submit" class="btn-primary">Отправить отзыв</button>
+                    <button type="submit" class="btn-comment">Отправить</button>
                 </form>
             </div>
 
-            <div class="comments-list">
-                {% for comment in comments %}
-                <div class="comment-item">
-                    <div class="comment-meta">
-                        <span class="comment-date">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
-                    </div>
-                    <p class="comment-text">{{ comment.text }}</p>
+            {% if comments %}
+                <div class="comments-list">
+                    {% for comment in comments %}
+                    <article class="comment-item">
+                        <div class="comment-meta">
+                            <time class="comment-date">{{ comment.created_at|date:"d.m.Y H:i" }}</time>
+                        </div>
+                        <p class="comment-text">{{ comment.text }}</p>
+                    </article>
+                    {% endfor %}
                 </div>
-                {% empty %}
-                <p class="no-comments">Пока нет отзывов. Будьте первым!</p>
-                {% endfor %}
-            </div>
-        </div>
+            {% else %}
+                <p class="no-comments">Пока нет отзывов</p>
+            {% endif %}
+        </section>
     </div>
 </body>
 </html>

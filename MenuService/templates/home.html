@@ -4,83 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Столовка - Меню на неделю</title>
+    <title>Столовка — Меню на неделю</title>
     <link rel="stylesheet" href="{% static 'css/MenuService/home.css'%}" type="text/css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header">
             <h1 class="logo">Столовка</h1>
-            <p class="week-title">Меню на текущую неделю (Пн-Пт)</p>
-        </div>
+            <p class="week-title">Меню на текущую неделю</p>
+        </header>
 
-        <div class="calendar">
+        <main class="calendar">
             {% for day in week_menu %}
-            <div class="day-card">
+            <article class="day-card">
                 <div class="day-header">
-                    <div>
-                        <div class="day-name">{{ day.day_name }}</div>
-                        <div class="day-date">{{ day.date }}</div>
-                    </div>
+                    <h2 class="day-name">{{ day.day_name }}</h2>
+                    <time class="day-date">{{ day.date }}</time>
                 </div>
 
-                <div class="meal-section">
-                    <div class="meal-header">
-                        <span class="time-badge">11:10</span>
-                        {% if day.breakfast and day.breakfast.id %}
-                            <a href="{% url 'itemBreakfast' day.breakfast.id %}">Завтрак</a>
-                        {% else %}
-                            <span>Завтрак</span>
-                        {% endif %}
-                    </div>
+                <section class="meal-section">
+                    <h3 class="meal-header">
+                        <span class="time-badge">Завтрак</span>
+                        <span class="meal-time">11:10</span>
+                    </h3>
                     {% if day.breakfast %}
-                        <div class="meal-items">
+                        <ul class="meal-items">
                             {% if day.breakfast.first_dish %}
-                            <div class="meal-item">🍽️ {{ day.breakfast.first_dish }}</div>
+                            <li class="meal-item">{{ day.breakfast.first_dish }}</li>
                             {% endif %}
                             {% if day.breakfast.drink %}
-                            <div class="meal-item">🥤 {{ day.breakfast.drink }}</div>
+                            <li class="meal-item">{{ day.breakfast.drink }}</li>
                             {% endif %}
-                        </div>
+                        </ul>
                     {% else %}
-                        <div class="no-menu">Меню не установлено</div>
+                        <p class="no-menu">Меню не установлено</p>
                     {% endif %}
-                </div>
+                </section>
 
-                <div class="meal-section">
-                    <div class="meal-header">
-                        <span class="time-badge">14:15</span>
-                        {% if day.lunch and day.lunch.id %}
-                            <a href="{% url 'itemLunch' day.lunch.id %}">Обед</a>
-                        {% else %}
-                            <span>Обед</span>
-                        {% endif %}
-                    </div>
+                <section class="meal-section">
+                    <h3 class="meal-header">
+                        <span class="time-badge">Обед</span>
+                        <span class="meal-time">14:15</span>
+                    </h3>
                     {% if day.lunch %}
-                        <div class="meal-items">
+                        <ul class="meal-items">
                             {% if day.lunch.soup %}
-                            <div class="meal-item">🥣 {{ day.lunch.soup }}</div>
+                            <li class="meal-item">{{ day.lunch.soup }}</li>
                             {% endif %}
                             {% if day.lunch.main %}
-                            <div class="meal-item">🍽️ {{ day.lunch.main }}</div>
+                            <li class="meal-item">{{ day.lunch.main }}</li>
                             {% endif %}
                             {% if day.lunch.salad %}
-                            <div class="meal-item">🥗 {{ day.lunch.salad }}</div>
+                            <li class="meal-item">{{ day.lunch.salad }}</li>
                             {% endif %}
                             {% if day.lunch.drink %}
-                            <div class="meal-item">🥤 {{ day.lunch.drink }}</div>
+                            <li class="meal-item">{{ day.lunch.drink }}</li>
                             {% endif %}
-                        </div>
+                        </ul>
                     {% else %}
-                        <div class="no-menu">Меню не установлено</div>
+                        <p class="no-menu">Меню не установлено</p>
                     {% endif %}
-                </div>
-            </div>
+                </section>
+            </article>
             {% empty %}
-            <p>Меню на неделю пока не добавлено</p>
+            <p class="empty-state">Меню на неделю пока не добавлено</p>
             {% endfor %}
-        </div>
+        </main>
     </div>
 </body>
 </html>

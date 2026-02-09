@@ -4,45 +4,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Столовка - Добавить Меню на неделю</title>
+    <title>Добавить меню — Столовка</title>
     <link rel="stylesheet" href="{% static 'css/MenuService/home.css'%}" type="text/css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .add-form-container {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 40px;
+            background: #ffffff;
+            border: 2px solid #f0f0f0;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(113, 34, 118, 0.08);
+        }
+
+        .add-form-container h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: #1a1a1a;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #712276;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: #f9fafb;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #712276 0%, #5a1d62 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(113, 34, 118, 0.2);
+            letter-spacing: 0.3px;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(113, 34, 118, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
-    <form method="POST">
-        {% csrf_token %}
+    <div class="add-form-container">
+        <h1>Добавить меню</h1>
         
-        <h3>Обед</h3>
-        <label>Суп</label>
-        <input type="text" name="soup" placeholder="Суп" required>
-        
-        <label>Второе</label>
-        <input type="text" name="main" placeholder="Второе блюдо" required>
-        
-        <label>Салат</label>
-        <input type="text" name="salad" placeholder="Салат" required>
-        
-        <label>Напиток (обед)</label>
-        <input type="text" name="lunch_drink" placeholder="Напиток" required>
-        
-        <h3>Завтрак</h3>
-        <label>Первое блюдо</label>
-        <input type="text" name="first_dish" placeholder="Первое блюдо" required>
-        
-        <label>Напиток (завтрак)</label>
-        <input type="text" name="breakfast_drink" placeholder="Напиток" required>
-        
-        <label>День недели</label>
-        <select name="weekday" required>
-            <option value="Понедельник">Понедельник</option>
-            <option value="Вторник">Вторник</option>
-            <option value="Среда">Среда</option>
-            <option value="Четверг">Четверг</option>
-            <option value="Пятница">Пятница</option>
-        </select>
-        
-        <button type="submit">Добавить</button>
-    </form>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <section class="form-section">
+                <h3>Завтрак</h3>
+                
+                <div class="form-field">
+                    <label for="first_dish">Первое блюдо</label>
+                    <input type="text" id="first_dish" name="first_dish" placeholder="Каша, творог или молоко" required>
+                </div>
+                
+                <div class="form-field">
+                    <label for="breakfast_drink">Напиток</label>
+                    <input type="text" id="breakfast_drink" name="breakfast_drink" placeholder="Компот, чай или молоко" required>
+                </div>
+            </section>
 
+            <section class="form-section">
+                <h3>Обед</h3>
+                
+                <div class="form-field">
+                    <label for="soup">Суп</label>
+                    <input type="text" id="soup" name="soup" placeholder="Борщ, щи или суп" required>
+                </div>
+                
+                <div class="form-field">
+                    <label for="main">Второе блюдо</label>
+                    <input type="text" id="main" name="main" placeholder="Рыба, мясо или курица" required>
+                </div>
+                
+                <div class="form-field">
+                    <label for="salad">Салат</label>
+                    <input type="text" id="salad" name="salad" placeholder="Овощной салат или свежий овощ" required>
+                </div>
+                
+                <div class="form-field">
+                    <label for="lunch_drink">Напиток</label>
+                    <input type="text" id="lunch_drink" name="lunch_drink" placeholder="Компот, сок или кисель" required>
+                </div>
+            </section>
+
+            <div class="form-field">
+                <label for="weekday">День недели</label>
+                <select id="weekday" name="weekday" required>
+                    <option value="">Выберите день</option>
+                    <option value="Понедельник">Понедельник</option>
+                    <option value="Вторник">Вторник</option>
+                    <option value="Среда">Среда</option>
+                    <option value="Четверг">Четверг</option>
+                    <option value="Пятница">Пятница</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="submit-btn">Сохранить меню</button>
+        </form>
+    </div>
 </body>
 </html>

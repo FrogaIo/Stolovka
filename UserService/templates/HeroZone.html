@@ -4,48 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Столовка - Меню школьной столовой</title>
+    <title>Столовка — Меню школьной столовой</title>
     <link rel="stylesheet" href="{% static 'css/UserService/herozone.css'%}" type="text/css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <section class="hero-container">
-        <div class="header">
-            <h1 class="logo">Столовка</h1>
-            <p class="tagline">Меню школьной столовой</p>
-        </div>
+    <div class="hero-wrapper">
+        <section class="hero-container">
+            <header class="header">
+                <h1 class="logo">Столовка</h1>
+                <p class="tagline">Меню школьной столовой</p>
+            </header>
 
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <h3 class="feature-title">Актуальное меню</h3>
-                <p class="feature-desc">Меню на сегодня, завтра и всю неделю. Всегда в курсе что готовят.</p>
+            <div class="features">
+                <article class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3 class="feature-title">Актуальное меню</h3>
+                    <p class="feature-desc">Всегда будьте в курсе, что готовят на обед и завтрак</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3 class="feature-title">Оценивайте блюда</h3>
+                    <p class="feature-desc">Делитесь мнением о качестве еды в столовой</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Удобный интерфейс</h3>
+                    <p class="feature-desc">Просто, быстро и без лишней информации</p>
+                </article>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">⭐</div>
-                <h3 class="feature-title">Оценки блюд</h3>
-                <p class="feature-desc">Ставьте оценки любимым блюдам и видьте средние оценки от всех.</p>
-            </div>
+            <section class="cta-section">
+                <p class="description">
+                    Узнавайте меню на неделю вперед и никогда не пропустите любимые блюда
+                </p>
 
-            <div class="feature-card">
-                <div class="feature-icon">📅</div>
-                <h3 class="feature-title">Календарь питания</h3>
-                <p class="feature-desc">Планируйте питание на неделю вперед. Ничего не пропустите.</p>
-            </div>
-        </div>
-
-        <div class="cta-section">
-            <p class="description">
-                Узнавайте что готовят на обед, 
-                планируйте питание заранее.
-            </p>
-
-            <div class="cta-buttons">
-                <a href="/register/" class="btn-primary">Начать пользоваться</a>
-                <a href="/login/" class="btn-secondary">У меня есть аккаунт</a>
-            </div>
-        </div>
-    </section>
+                <nav class="cta-buttons">
+                    <a href="/register/" class="btn-primary">Начать</a>
+                    <a href="/login/" class="btn-secondary">Войти</a>
+                </nav>
+            </section>
+        </section>
+    </div>
 </body>
+</html>
 </html>
