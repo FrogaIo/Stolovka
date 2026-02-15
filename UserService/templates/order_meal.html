@@ -1,0 +1,226 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказать питание — Столовка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6f2979 0%, #5a2264 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+        }
+        .balance {
+            background: #6f2979;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        .menu-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .menu-section h2 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #6f2979;
+            padding-bottom: 10px;
+        }
+        .meal-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #6f2979;
+        }
+        .meal-info h3 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .meal-details {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .meal-allergens {
+            color: #999;
+            font-size: 12px;
+            font-style: italic;
+        }
+        .meal-price {
+            background: #6f2979;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        .meal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-order {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .btn-order:hover {
+            background: #218838;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 15px;
+            border-radius: 5px;
+            background: white;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/menu/" class="back-link">← Назад в меню</a>
+
+        <div class="header">
+            <h1>Заказать питание</h1>
+            <div class="balance">Баланс: {{ user.balance }}₽</div>
+        </div>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if today_menu %}
+            <div class="menu-section">
+                <h2>🥙 Завтраки</h2>
+                {% if today_menu.breakfast %}
+                    <form method="post" style="display: flex; justify-content: space-between; align-items: center;">
+                        {% csrf_token %}
+                        <div class="meal-info">
+                            <h3>{{ today_menu.breakfast.first_dish }}</h3>
+                            <div class="meal-details">Напиток: {{ today_menu.breakfast.drink }}</div>
+                            <div class="meal-details">Калорийность: {{ today_menu.breakfast.calories }}ккал</div>
+                            {% if today_menu.breakfast.contains_allergens %}
+                                <div class="meal-allergens">⚠️ Содержит: {{ today_menu.breakfast.contains_allergens }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="meal-actions">
+                            <div class="meal-price">{{ today_menu.breakfast.price }}₽</div>
+                            <input type="hidden" name="meal_type" value="breakfast">
+                            <input type="hidden" name="breakfast_id" value="{{ today_menu.breakfast.id }}">
+                            <button type="submit" class="btn-order">Заказать</button>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="empty-message">Завтрак не доступен</div>
+                {% endif %}
+            </div>
+
+            <div class="menu-section">
+                <h2>🍱 Прием пищи</h2>
+                {% if today_menu.lunch %}
+                    <form method="post" style="display: flex; justify-content: space-between; align-items: center;">
+                        {% csrf_token %}
+                        <div class="meal-info">
+                            <h3>{{ today_menu.lunch.main }}</h3>
+                            <div class="meal-details">Суп: {{ today_menu.lunch.soup }}</div>
+                            <div class="meal-details">Салат: {{ today_menu.lunch.salad }}</div>
+                            <div class="meal-details">Напиток: {{ today_menu.lunch.drink }}</div>
+                            <div class="meal-details">Калорийность: {{ today_menu.lunch.calories }}ккал</div>
+                            {% if today_menu.lunch.contains_allergens %}
+                                <div class="meal-allergens">⚠️ Содержит: {{ today_menu.lunch.contains_allergens }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="meal-actions">
+                            <div class="meal-price">{{ today_menu.lunch.price }}₽</div>
+                            <input type="hidden" name="meal_type" value="lunch">
+                            <input type="hidden" name="lunch_id" value="{{ today_menu.lunch.id }}">
+                            <button type="submit" class="btn-order">Заказать</button>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="empty-message">Обед не доступен</div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="menu-section">
+                <div class="empty-message">📭 Меню на сегодня не опубликовано</div>
+            </div>
+        {% endif %}
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="/profile/" style="color: white; text-decoration: none; font-weight: 600;">
+                Управление профилем и аллергиями →
+            </a>
+        </div>
+    </div>
+</body>
+</html>

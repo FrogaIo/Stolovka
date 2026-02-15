@@ -1,0 +1,328 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика и отчеты — Столовка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6f2979 0%, #5a2264 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 10px;
+            color: #6f2979;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #6f2979;
+            padding-bottom: 10px;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 30px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #6f2979;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            color: #999;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        thead {
+            background: #f8f9fa;
+        }
+        th {
+            padding: 12px;
+            text-align: left;
+            color: #333;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #666;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 15px;
+            border-radius: 5px;
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="header">
+            <h1>📊 Статистика и отчеты</h1>
+            <a href="/admin/dashboard/" class="back-btn">← Вернуться в панель</a>
+        </div>
+
+        <!-- Платежи -->
+        <div class="section">
+            <h2>💰 Статистика платежей</h2>
+            <div class="stats-grid">
+                {% for payment_type in payments_data %}
+                    <div class="stat-item">
+                        <div class="stat-value">{{ payment_type.count }}</div>
+                        <div class="stat-label">
+                            {% if payment_type.payment_type == 'single' %}
+                                Одноразовые платежи
+                            {% elif payment_type.payment_type == 'subscription' %}
+                                Подписки
+                            {% endif %}
+                        </div>
+                        <div style="margin-top: 10px; color: #6f2979; font-weight: 600;">
+                            {{ payment_type.total }}₽
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if payments_data %}
+                <canvas id="paymentChart"></canvas>
+            {% else %}
+                <div class="empty-message">Нет данных о платежах</div>
+            {% endif %}
+        </div>
+
+        <!-- Посещаемость -->
+        <div class="section">
+            <h2>📈 Посещаемость (последние 30 дней)</h2>
+            <div class="chart-container">
+                <canvas id="attendanceChart"></canvas>
+            </div>
+            {% if attendance_data %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Заказов</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in attendance_data %}
+                            <tr>
+                                <td>{{ item.date }}</td>
+                                <td><strong>{{ item.count }}</strong></td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="2" style="text-align: center; color: #999;">Нет данных</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-message">Нет данных о посещаемости</div>
+            {% endif %}
+        </div>
+
+        <!-- Популярные обеды -->
+        <div class="section">
+            <h2>🍱 Популярные обеды</h2>
+            {% if lunch_orders %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Блюдо</th>
+                            <th>Количество заказов</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in lunch_orders %}
+                            <tr>
+                                <td>{{ item.lunch__main }}</td>
+                                <td><strong>{{ item.count }}</strong></td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="2" style="text-align: center; color: #999;">Нет заказов</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-message">Нет данных о заказах обедов</div>
+            {% endif %}
+        </div>
+
+        <!-- Популярные завтраки -->
+        <div class="section">
+            <h2>🥙 Популярные завтраки</h2>
+            {% if breakfast_orders %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Блюдо</th>
+                            <th>Количество заказов</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in breakfast_orders %}
+                            <tr>
+                                <td>{{ item.breakfast__first_dish }}</td>
+                                <td><strong>{{ item.count }}</strong></td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="2" style="text-align: center; color: #999;">Нет заказов</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-message">Нет данных о заказах завтраков</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // График платежей
+        const paymentCtx = document.getElementById('paymentChart');
+        if (paymentCtx) {
+            new Chart(paymentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        {% for payment_type in payments_data %}
+                            '{% if payment_type.payment_type == "single" %}Одноразовые{% else %}Подписки{% endif %}',
+                        {% endfor %}
+                    ],
+                    datasets: [{
+                        data: [
+                            {% for payment_type in payments_data %}
+                                {{ payment_type.total }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: ['#6f2979', '#5a2264', '#28a745', '#ff6b6b']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        // График посещаемости
+        const attendanceCtx = document.getElementById('attendanceChart');
+        if (attendanceCtx) {
+            new Chart(attendanceCtx, {
+                type: 'line',
+                data: {
+                    labels: [
+                        {% for item in attendance_data %}
+                            '{{ item.date }}',
+                        {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Заказов',
+                        data: [
+                            {% for item in attendance_data %}
+                                {{ item.count }},
+                            {% endfor %}
+                        ],
+                        borderColor: '#6f2979',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

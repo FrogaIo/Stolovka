@@ -5,88 +5,67 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #f8f5ff 0%, #fff9f7 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #ffffff;
     min-height: 100vh;
     color: #1a1a1a;
-    padding-bottom: 80px;
 }
 
 .container {
     max-width: 700px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px 20px;
 }
 
+/* Header */
 .header {
     text-align: center;
-    margin-bottom: 60px;
-    padding: 40px 20px;
+    margin-bottom: 48px;
 }
 
 .back-link {
     display: inline-block;
-    color: #8b5cf6;
+    color: #666666;
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 24px;
-    opacity: 0.8;
-    transition: all 0.2s;
+    transition: color 0.3s ease;
 }
 
 .back-link:hover {
-    opacity: 1;
-    transform: translateX(-4px);
+    color: #6f2979;
 }
 
 .logo {
     font-size: 48px;
     font-weight: 800;
-    background: linear-gradient(135deg, #712276 0%, #5a1d62 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 16px;
-    letter-spacing: -1px;
-    display: inline-block;
+    color: #6f2979;
+    margin-bottom: 12px;
 }
 
 .week-title {
-    font-size: 20px;
-    font-weight: 500;
-    color: #8b5cf6;
-    letter-spacing: 0.5px;
+    font-size: 16px;
+    color: #666666;
+    font-weight: 400;
 }
 
-/* Meal Detail */
 .meal-detail {
-    margin-bottom: 64px;
+    margin-bottom: 48px;
 }
 
 .meal-card {
     background: #ffffff;
-    border: 2px solid #f0f0f0;
-    border-radius: 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
     padding: 40px;
-    box-shadow: 0 16px 48px rgba(113, 34, 118, 0.08);
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
 }
 
-.meal-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #712276, #8b5cf6);
-    transition: left 0.3s ease;
-}
-
-.meal-card:hover::before {
-    left: 0;
+.meal-card:hover {
+    border-color: #6f2979;
+    box-shadow: 0 4px 16px rgba(111, 41, 121, 0.08);
 }
 
 .meal-title {
@@ -95,7 +74,6 @@ body {
     color: #1a1a1a;
     margin-bottom: 32px;
     text-align: center;
-    letter-spacing: -0.5px;
 }
 
 .meal-items-detail {
@@ -110,192 +88,229 @@ body {
     flex-direction: column;
     gap: 8px;
     padding: 20px;
-    background: linear-gradient(135deg, #f8f5ff 0%, #fff9f7 100%);
-    border-radius: 12px;
-    border-left: 4px solid #8b5cf6;
-    transition: all 0.2s;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border-left: 2px solid #6f2979;
+    transition: all 0.3s ease;
 }
 
 .meal-item-detail:hover {
+    background: #f5f0f9;
     transform: translateX(4px);
-    background: linear-gradient(135deg, #ede9fe 0%, #fef3c7 100%);
 }
 
 .item-label {
     font-weight: 600;
-    color: #712276;
-    font-size: 14px;
+    color: #6f2979;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
 }
 
 .item-value {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 500;
     color: #1a1a1a;
 }
 
 .no-menu {
     text-align: center;
-    color: #b4a0d8;
-    font-size: 15px;
+    color: #999999;
+    font-size: 14px;
     padding: 32px 20px;
     font-style: italic;
-    background: #f8f5ff;
-    border-radius: 12px;
+    background: #f9f9f9;
+    border-radius: 8px;
 }
 
-/* Comments Section */
+/* Comments */
 .comments-section {
-    margin-bottom: 80px;
+    margin-top: 48px;
+    padding-top: 48px;
+    border-top: 1px solid #e5e5e5;
 }
 
-.section-title {
+.comments-title {
     font-size: 20px;
     font-weight: 700;
     color: #1a1a1a;
-    margin-bottom: 32px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid #f0f0f0;
-    letter-spacing: -0.3px;
+    margin-bottom: 28px;
 }
 
 .comment-form {
-    background: #ffffff;
-    padding: 32px;
-    border: 2px solid #f0f0f0;
-    border-radius: 20px;
-    margin-bottom: 40px;
-    box-shadow: 0 16px 48px rgba(113, 34, 118, 0.08);
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 32px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .form-group textarea {
     width: 100%;
-    padding: 16px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 15px;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, monospace;
+    font-size: 14px;
+    color: #1a1a1a;
     resize: vertical;
-    background: #f9fafb;
-    transition: all 0.2s;
-    margin-bottom: 20px;
-    font-weight: 400;
-    line-height: 1.6;
+    transition: all 0.3s ease;
 }
 
 .form-group textarea:focus {
     outline: none;
-    border-color: #8b5cf6;
-    background: #fff;
-    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+    border-color: #6f2979;
+    box-shadow: 0 0 0 3px rgba(111, 41, 121, 0.08);
 }
 
 .btn-comment {
-    background: linear-gradient(135deg, #712276 0%, #5a1d62 100%);
+    background: #6f2979;
     color: #ffffff;
     border: none;
-    padding: 14px 28px;
-    border-radius: 12px;
-    font-size: 14px;
+    padding: 12px 32px;
+    border-radius: 8px;
     font-weight: 600;
-    font-family: inherit;
     cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 8px 20px rgba(113, 34, 118, 0.2);
-    letter-spacing: 0.3px;
+    font-size: 14px;
+    transition: all 0.3s ease;
 }
 
 .btn-comment:hover {
+    background: #5a2264;
     transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(113, 34, 118, 0.3);
+    box-shadow: 0 4px 12px rgba(111, 41, 121, 0.2);
 }
 
 .btn-comment:active {
     transform: translateY(0);
 }
 
-.comments-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.comment-item {
-    padding: 24px;
-    background: #ffffff;
-    border: 2px solid #f0f0f0;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(113, 34, 118, 0.06);
-    transition: all 0.2s;
-}
-
-.comment-item:hover {
-    border-color: #8b5cf6;
-    box-shadow: 0 12px 32px rgba(113, 34, 118, 0.12);
-}
-
-.comment-meta {
-    margin-bottom: 12px;
-}
-
-.comment-date {
-    font-size: 13px;
-    color: #9ca3af;
-    font-weight: 500;
-}
-
-.comment-date {
-    font-size: 13px;
-    color: #9ca3af;
-    font-weight: 500;
-}
-
-.comment-text {
-    color: #1a1a1a;
-    line-height: 1.6;
-    font-size: 15px;
-    margin: 0;
-}
-
 .no-comments {
     text-align: center;
-    color: #b4a0d8;
-    font-style: italic;
-    padding: 40px 20px;
-    background: #f8f5ff;
-    border-radius: 12px;
+    color: #999999;
+    padding: 20px;
     font-size: 14px;
 }
 
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    list-style: none;
+}
+
+.comment-item {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+}
+
+.comment-item:hover {
+    border-color: #6f2979;
+    box-shadow: 0 4px 16px rgba(111, 41, 121, 0.08);
+}
+
+.comment-author {
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.comment-date {
+    font-size: 12px;
+    color: #999999;
+    margin-bottom: 12px;
+}
+
+.comment-text {
+    font-size: 14px;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+/* Footer */
+footer {
+    background: #f9f9f9;
+    border-top: 1px solid #e5e5e5;
+    padding: 32px 20px;
+    text-align: center;
+    margin-top: 64px;
+}
+
+footer p {
+    color: #666666;
+    font-size: 13px;
+    margin: 0;
+}
+
 /* Responsive */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .container {
-        padding: 16px;
-    }
-    
-    .header {
-        margin-bottom: 40px;
         padding: 24px 16px;
     }
-    
+
     .logo {
         font-size: 36px;
     }
-    
-    .meal-card, .comment-form {
-        padding: 28px 20px;
+
+    .meal-card {
+        padding: 24px;
     }
-    
+
     .meal-title {
         font-size: 24px;
     }
-    
-    .comment-item {
-        padding: 20px 16px;
+
+    .comment-form {
+        padding: 20px;
     }
-    
-    .section-title {
-        font-size: 18px;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 16px;
+    }
+
+    .header {
+        margin-bottom: 32px;
+    }
+
+    .logo {
+        font-size: 28px;
+    }
+
+    .week-title {
+        font-size: 14px;
+    }
+
+    .meal-card {
+        padding: 16px;
+    }
+
+    .meal-title {
+        font-size: 20px;
+    }
+
+    .back-link {
+        font-size: 13px;
     }
 }

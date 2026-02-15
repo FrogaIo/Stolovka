@@ -4,50 +4,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Столовка — Меню школьной столовой</title>
+    <title>Столовка — Управление школьной столовой</title>
     <link rel="stylesheet" href="{% static 'css/UserService/herozone.css'%}" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f0f9 0%, #ffffff 50%, #f0e8f5 100%);
+            min-height: 100vh;
+            color: #1a1a1a;
+        }
+        .hero-wrapper {
+            padding: 40px 20px;
+        }
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #6f2979 0%, #5a2264 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tagline {
+            font-size: 18px;
+            opacity: 0.9;
+            color: #6f2979;
+            font-weight: 500;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+        .feature-card {
+            background: white;
+            border: 2px solid #e0d9f0;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(111, 41, 121, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(111, 41, 121, 0.15);
+            border-color: #6f2979;
+        }
+        .feature-icon {
+            font-size: 0;
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, #6f2979 0%, #8b6ba0 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(111, 41, 121, 0.2);
+        }
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        .feature-desc {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .roles-section {
+            background: white;
+            border: 2px solid #e0d9f0;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(111, 41, 121, 0.08);
+        }
+        .roles-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #1a1a1a;
+        }
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .role-card {
+            background: linear-gradient(135deg, #6f2979 0%, #8b6ba0 100%);
+            color: white;
+            padding: 30px 25px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 12px 32px rgba(111, 41, 121, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.3s ease;
+        }
+        .role-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(111, 41, 121, 0.35);
+        }
+        .role-card:hover::before {
+            left: 100%;
+        }
+        .role-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .role-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .role-features {
+            font-size: 12px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        .cta-section {
+            text-align: center;
+            background: white;
+            border: 2px solid #e0d9f0;
+            border-radius: 15px;
+            padding: 50px 40px;
+            box-shadow: 0 8px 25px rgba(111, 41, 121, 0.08);
+        }
+        .description {
+            font-size: 18px;
+            color: #4b5563;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 14px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6f2979 0%, #5a2264 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(111, 41, 121, 0.2);
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 32px rgba(111, 41, 121, 0.3);
+        }
+        .btn-secondary {
+            background: white;
+            color: #6f2979;
+            border: 2px solid #6f2979;
+        }
+        .btn-secondary:hover {
+            background: #6f2979;
+            color: white;
+            box-shadow: 0 8px 20pba(111, 41, 121, 0.15);
+        }
+    </style>
 </head>
 <body>
     <div class="hero-wrapper">
         <section class="hero-container">
             <header class="header">
-                <h1 class="logo">Столовка</h1>
-                <p class="tagline">Меню школьной столовой</p>
+                <h1 class="logo">🍽️ Столовка</h1>
+                <p class="tagline">Система управления школьной столовой</p>
             </header>
 
             <div class="features">
                 <article class="feature-card">
-                    <div class="feature-icon">📅</div>
+                    <div class="feature-icon"></div>
                     <h3 class="feature-title">Актуальное меню</h3>
-                    <p class="feature-desc">Всегда будьте в курсе, что готовят на обед и завтрак</p>
+                    <p class="feature-desc">Узнавайте что готовят на завтрак и обед на всю неделю вперед</p>
                 </article>
 
                 <article class="feature-card">
-                    <div class="feature-icon">⭐</div>
+                    <div class="feature-icon"></div>
+                    <h3 class="feature-title">Онлайн оплата</h3>
+                    <p class="feature-desc">Пополняйте баланс и выбирайте удобный способ оплаты питания</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon"></div>
+                    <h3 class="feature-title">Аналитика и отчеты</h3>
+                    <p class="feature-desc">Администраторы получают подробную статистику и данные</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon"></div>
                     <h3 class="feature-title">Оценивайте блюда</h3>
-                    <p class="feature-desc">Делитесь мнением о качестве еды в столовой</p>
+                    <p class="feature-desc">Оставляйте отзывы и помогайте улучшать меню</p>
                 </article>
 
                 <article class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3 class="feature-title">Удобный интерфейс</h3>
-                    <p class="feature-desc">Просто, быстро и без лишней информации</p>
+                    <div class="feature-icon"></div>
+                    <h3 class="feature-title">Управление аллергиями</h3>
+                    <p class="feature-desc">Указывайте аллергии и получайте информацию о составе блюд</p>
                 </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon"></div>
+                    <h3 class="feature-title">Удобный интерфейс</h3>
+                    <p class="feature-desc">Просто, быстро и адаптивно под все устройства</p>
+                </article>
+            </div>
+
+            <!-- Роли в системе -->
+            <div class="roles-section">
+                <h2>Роли в системе</h2>
+                <div class="roles-grid">
+                    <div class="role-card">
+                        <div class="role-badge">Ученик</div>
+                        <div class="role-name">Ученик</div>
+                        <div class="role-features">
+                            • Просмотр меню<br>
+                            • Заказ питания<br>
+                            • Оплата питания<br>
+                            • Управление аллергиями<br>
+                            • Оставление отзывов
+                        </div>
+                    </div>
+
+                    <div class="role-card">
+                        <div class="role-badge">Повар</div>
+                        <div class="role-name">Повар</div>
+                        <div class="role-features">
+                            • Управление заказами<br>
+                            • Контроль остатков<br>
+                            • Управление холодильником<br>
+                            • Создание заявок<br>
+                            • Учет выданных блюд
+                        </div>
+                    </div>
+
+                    <div class="role-card">
+                        <div class="role-badge">Администратор</div>
+                        <div class="role-name">Администратор</div>
+                        <div class="role-features">
+                            • Статистика платежей<br>
+                            • Одобрение заявок<br>
+                            • Формирование отчетов<br>
+                            • Управление меню<br>
+                            • Аналитика посещаемости
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <section class="cta-section">
                 <p class="description">
-                    Узнавайте меню на неделю вперед и никогда не пропустите любимые блюда
+                    Присоединяйтесь к нашей системе управления столовой и улучшайте качество питания школы
                 </p>
 
                 <nav class="cta-buttons">
-                    <a href="/register/" class="btn-primary">Начать</a>
+                    <a href="/register/" class="btn-primary">🚀 Начать</a>
                     <a href="/login/" class="btn-secondary">Войти</a>
                 </nav>
             </section>
         </section>
     </div>
 </body>
-</html>
-</html>

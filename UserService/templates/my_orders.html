@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои заказы — Столовка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6f2979 0%, #5a2264 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .order-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #6f2979;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .order-date {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+        }
+        .order-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-ordered {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-received {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .order-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .detail-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .detail-label {
+            color: #999;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .detail-value {
+            color: #333;
+            font-weight: 600;
+        }
+        .empty-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            font-size: 18px;
+        }
+        .empty-message-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .btn-order {
+            display: inline-block;
+            background: #6f2979;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        .btn-order:hover {
+            background: #5a2264;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/menu/" class="back-link">← Назад в меню</a>
+
+        <div class="header">
+            <h1>Мои заказы</h1>
+        </div>
+
+        {% if orders %}
+            {% for order in orders %}
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-date">
+                            📅 {{ order.created_at|date:"d.m.Y – H:i" }}
+                        </div>
+                        <span class="order-status {% if order.status == 'received' %}status-received{% elif order.status == 'ordered' %}status-ordered{% else %}status-cancelled{% endif %}">
+                            {% if order.status == 'received' %}✓ Получено{% elif order.status == 'ordered' %}⏳ Заказано{% else %}✕ Отменено{% endif %}
+                        </span>
+                    </div>
+
+                    <div class="order-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Тип приема</div>
+                            <div class="detail-value">
+                                {% if order.meal_type == 'breakfast' %}🥙 Завтрак{% else %}🍱 Обед{% endif %}
+                            </div>
+                        </div>
+
+                        {% if order.breakfast %}
+                            <div class="detail-item">
+                                <div class="detail-label">Блюдо</div>
+                                <div class="detail-value">{{ order.breakfast.first_dish }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Напиток</div>
+                                <div class="detail-value">{{ order.breakfast.drink }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Цена</div>
+                                <div class="detail-value">{{ order.breakfast.price }}₽</div>
+                            </div>
+                        {% endif %}
+
+                        {% if order.lunch %}
+                            <div class="detail-item">
+                                <div class="detail-label">Основное блюдо</div>
+                                <div class="detail-value">{{ order.lunch.main }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Суп</div>
+                                <div class="detail-value">{{ order.lunch.soup }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Салат</div>
+                                <div class="detail-value">{{ order.lunch.salad }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Напиток</div>
+                                <div class="detail-value">{{ order.lunch.drink }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Цена</div>
+                                <div class="detail-value">{{ order.lunch.price }}₽</div>
+                            </div>
+                        {% endif %}
+
+                        {% if order.received_time %}
+                            <div class="detail-item">
+                                <div class="detail-label">Время получения</div>
+                                <div class="detail-value">{{ order.received_time|date:"H:i" }}</div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-message">
+                <div class="empty-message-icon">📭</div>
+                <div>У вас еще нет заказов</div>
+                <a href="/order/" class="btn-order">Сделать первый заказ</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

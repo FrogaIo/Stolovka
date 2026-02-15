@@ -7,13 +7,86 @@
     <title>Столовка — Меню на неделю</title>
     <link rel="stylesheet" href="{% static 'css/MenuService/home.css'%}" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        .top-nav {
+            background: linear-gradient(135deg, #6f2979 0%, #5a2264 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(111, 41, 121, 0.15);
+        }
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 600;
+        }
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+        .user-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .user-role {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
+    <!-- Верхняя навигация -->
+    {% if user %}
+    <div class="top-nav">
+        <div>
+            <h2 style="margin: 0; font-size: 20px;">Столовка</h2>
+        </div>
+        <div class="user-info">
+            <span>{{ user.name }}</span>
+            <span class="user-role">{{ user.get_role_display }}</span>
+            
+            {% if user.role == 'student' %}
+                <a href="/profile/">Профиль</a>
+                <a href="/order/">Заказать</a>
+                <a href="/my-orders/">Мои заказы</a>
+            {% elif user.role == 'chef' %}
+                <a href="/chef/dashboard/">Панель</a>
+            {% elif user.role == 'admin' %}
+                <a href="/admin/dashboard/">Администратор</a>
+            {% endif %}
+            
+            <a href="/logout/">Выход</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="top-nav">
+        <div>
+            <h2 style="margin: 0; font-size: 20px;">Столовка</h2>
+        </div>
+        <div>
+            <a href="/login/">Вход</a>
+            <a href="/register/">Регистрация</a>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="container">
         <header class="header">
-            <h1 class="logo">Столовка</h1>
-            <p class="week-title">Меню на текущую неделю</p>
+            <h1 class="logo">Меню на неделю</h1>
+            <p class="week-title">Выбирайте блюда из нашего меню</p>
         </header>
+    </div>
 
         <main class="calendar">
             {% for day in week_menu %}
@@ -37,6 +110,13 @@
                             <li class="meal-item">{{ day.breakfast.drink }}</li>
                             {% endif %}
                         </ul>
+                        {% if user %}
+                        <div style="margin-top: 10px;">
+                            <a href="{% url 'itemBreakfast' day.breakfast.id %}" style="color: #6f2979; text-decoration: none; font-weight: 600;">
+                                Подробнее →
+                            </a>
+                        </div>
+                        {% endif %}
                     {% else %}
                         <p class="no-menu">Меню не установлено</p>
                     {% endif %}
@@ -62,15 +142,20 @@
                             <li class="meal-item">{{ day.lunch.drink }}</li>
                             {% endif %}
                         </ul>
+                        {% if user %}
+                        <div style="margin-top: 10px;">
+                            <a href="{% url 'itemLunch' day.lunch.id %}" style="color: #6f2979; text-decoration: none; font-weight: 600;">
+                                Подробнее →
+                            </a>
+                        </div>
+                        {% endif %}
                     {% else %}
                         <p class="no-menu">Меню не установлено</p>
                     {% endif %}
                 </section>
             </article>
-            {% empty %}
-            <p class="empty-state">Меню на неделю пока не добавлено</p>
             {% endfor %}
         </main>
-    </div>
+
 </body>
 </html>

@@ -5,6 +5,14 @@ from .models import DailyMenu, Lunch, Breakfast
 from UserService.models import User, Comment, CommentLunch
 
 def home(request):
+    """Главное меню"""
+    try:
+        user = None
+        if request.user.is_authenticated:
+            user = User.objects.get(email=request.user.email)
+    except User.DoesNotExist:
+        user = None
+    
     today = timezone.now().date()
     days_since_monday = (today.weekday())  # 0=Пн 6=Вс
     monday = today - timedelta(days=days_since_monday)
@@ -30,11 +38,13 @@ def home(request):
         })
     
     context = {
-        'week_menu': week_menu[:5]
+        'week_menu': week_menu[:5],
+        'user': user,
     }
     return render(request, 'home.html', context)
 
 def add(request):
+    """Добавить меню (только для администратора)"""
     if request.method == 'POST':
         soupL = request.POST.get('soup')
         mainL = request.POST.get('main')
@@ -66,18 +76,20 @@ def add(request):
             breakfast=breakfast,
             lunch=lunch,
         )
-        return redirect('home')
+        return redirect('menu')
     return render(request, 'add.html')
 
 
 def itemLunch(request, id):
+    """День обеда"""
     lunch = get_object_or_404(Lunch, id=id)
     comments = CommentLunch.objects.filter(lunch=lunch)
     if request.method == 'POST':
         CommentLunch.objects.create(
             lunch=lunch,
             text=request.POST['comment'],
-            author=request.POST.get('author', 'Аноним')
+            author=request.POST.get('author', 'Аноним'),
+            rating=request.POST.get('rating', 5)
         )
         return redirect('itemLunch', id=id)
     
@@ -87,13 +99,15 @@ def itemLunch(request, id):
     })
 
 def itemBreakfast(request, id):
+    """День завтрака"""
     breakfast = get_object_or_404(Breakfast, id=id)
     comments = Comment.objects.filter(breakfast=breakfast)
     if request.method == 'POST':
         Comment.objects.create(
             breakfast=breakfast,
             text=request.POST['comment'],
-            author=request.POST.get('author', 'Аноним')
+            author=request.POST.get('author', 'Аноним'),
+            rating=request.POST.get('rating', 5)
         )
         return redirect('itemBreakfast', id=id)
     

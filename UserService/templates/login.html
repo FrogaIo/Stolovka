@@ -10,11 +10,14 @@
 </head>
 <body>
     <div class="auth-wrapper">
+        <div class="auth-background"></div>
         <div class="login-container">
-            <a href="/" class="back-link">← Вернуться</a>
+            <a href="/" class="back-link">Вернуться</a>
             
-            <h1>Вход</h1>
-            <p class="welcome-text">Введите ваши учетные данные</p>
+            <div class="auth-header">
+                <h1>Вход</h1>
+                <p class="welcome-text">Введите ваши учетные данные</p>
+            </div>
 
             {% if messages %}
                 <div class="messages">

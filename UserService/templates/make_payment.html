@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пополнить баланс — Столовка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6f2979 0%, #5a2264 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .payment-card {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .current-balance {
+            color: #6f2979;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #6f2979;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+        .subscription-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .option {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .option input[type="radio"] {
+            display: none;
+        }
+        .option input[type="radio"]:checked + .option-content {
+            display: block;
+        }
+        .option:hover {
+            border-color: #6f2979;
+            background: #f8f9ff;
+        }
+        .option-label {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+        }
+        .option-price {
+            color: #6f2979;
+            font-weight: 700;
+            font-size: 24px;
+            margin: 5px 0;
+        }
+        .option-duration {
+            color: #999;
+            font-size: 12px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #6f2979;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5a2264;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #6f2979;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            color: #5a2264;
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/profile/" class="back-link">← Назад в профиль</a>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="message error">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="payment-card">
+            <h1>Пополнить баланс</h1>
+            <p class="current-balance">Текущий баланс: <strong>{{ current_balance }}₽</strong></p>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="amount">Введите сумму (₽)</label>
+                    <input type="number" id="amount" name="amount" placeholder="Например: 100" min="10" step="10" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Тип платежа</label>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                        <div style="border: 2px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; cursor: pointer;">
+                            <input type="radio" name="payment_type" value="single" id="single" checked>
+                            <label for="single" style="cursor: pointer; float: none; margin: 0;">
+                                <div style="font-weight: 600; color: #333; font-size: 16px;">Одноразово</div>
+                                <input type="text" value="На баланс" readonly style="background: transparent; border: none; text-align: center; color: #999; font-size: 12px; padding: 0;">
+                            </label>
+                        </div>
+
+                        <div style="border: 2px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; cursor: pointer;">
+                            <input type="radio" name="payment_type" value="subscription_week" id="week">
+                            <label for="week" style="cursor: pointer; float: none; margin: 0;">
+                                <div style="font-weight: 600; color: #6f2979; font-size: 18px;">150₽</div>
+                                <div style="color: #999; font-size: 12px;">Неделя (5 дней)</div>
+                            </label>
+                        </div>
+
+                        <div style="border: 2px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; cursor: pointer;">
+                            <input type="radio" name="payment_type" value="subscription_month" id="month">
+                            <label for="month" style="cursor: pointer; float: none; margin: 0;">
+                                <div style="font-weight: 600; color: #6f2979; font-size: 18px;">500₽</div>
+                                <div style="color: #999; font-size: 12px;">Месяц</div>
+                            </label>
+                        </div>
+
+                        <div style="border: 2px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; cursor: pointer;">
+                            <input type="radio" name="payment_type" value="subscription_quarter" id="quarter">
+                            <label for="quarter" style="cursor: pointer; float: none; margin: 0;">
+                                <div style="font-weight: 600; color: #6f2979; font-size: 18px;">1300₽</div>
+                                <div style="color: #999; font-size: 12px;">Квартал</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit">Оплатить</button>
+            </form>
+
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #999;">
+                <p><strong>ℹ️ Информация:</strong></p>
+                <p style="margin-top: 8px;">• Платежи обрабатываются мгновенно</p>
+                <p>• При покупке абонемента у вас появится неограниченный доступ к питанию на указанный период</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

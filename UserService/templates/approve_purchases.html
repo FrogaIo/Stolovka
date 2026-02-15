@@ -1,0 +1,324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление заявками — Столовка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6f2979 0%, #5a2264 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 10px;
+            color: #6f2979;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #6f2979;
+            padding-bottom: 10px;
+        }
+        .request-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ffc107;
+        }
+        .request-card.approved {
+            border-left-color: #28a745;
+            background: #f0f9f6;
+        }
+        .request-card.rejected {
+            border-left-color: #dc3545;
+            background: #faf6f6;
+        }
+        .request-header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .request-title {
+            display: flex;
+            flex-direction: column;
+        }
+        .product-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+        }
+        .requested-by {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        .request-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .request-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .detail {
+            font-size: 13px;
+        }
+        .detail-label {
+            color: #999;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .detail-value {
+            color: #333;
+            font-weight: 600;
+        }
+        .request-reason {
+            background: white;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        .reason-label {
+            color: #999;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .reason-text {
+            color: #333;
+        }
+        .request-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .btn-approve {
+            background: #28a745;
+            color: white;
+        }
+        .btn-approve:hover {
+            background: #218838;
+        }
+        .btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-reject:hover {
+            background: #c82333;
+        }
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 15px;
+            border-radius: 5px;
+            background: #d4edda;
+            color: #155724;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab-link {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #999;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+        }
+        .tab-link.active {
+            color: #6f2979;
+            border-bottom-color: #6f2979;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="header">
+            <h1>📝 Управление заявками на закупку</h1>
+            <a href="/admin/dashboard/" class="back-btn">← Вернуться в панель</a>
+        </div>
+
+        <!-- Ожидающие одобрения -->
+        {% if pending_requests %}
+        <div class="section">
+            <h2>⏳ Ожидают одобрения ({{ pending_requests|length }})</h2>
+            {% for req in pending_requests %}
+                <div class="request-card">
+                    <div class="request-header">
+                        <div class="request-title">
+                            <div class="product-name">{{ req.product_name }}</div>
+                            <div class="requested-by">Запросил: {{ req.created_by.name }}</div>
+                        </div>
+                        <div class="request-status">
+                            <div class="status-badge status-pending">⏳ На рассмотрении</div>
+                        </div>
+                    </div>
+
+                    <div class="request-details">
+                        <div class="detail">
+                            <div class="detail-label">Количество</div>
+                            <div class="detail-value">{{ req.quantity }}{{ req.unit }}</div>
+                        </div>
+                        <div class="detail">
+                            <div class="detail-label">Дата запроса</div>
+                            <div class="detail-value">{{ req.created_at|date:"d.m.Y H:i" }}</div>
+                        </div>
+                    </div>
+
+                    <div class="request-reason">
+                        <div class="reason-label">Причина:</div>
+                        <div class="reason-text">{{ req.reason }}</div>
+                    </div>
+
+                    <form method="post" style="display: contents;">
+                        {% csrf_token %}
+                        <div class="request-actions">
+                            <input type="hidden" name="request_id" value="{{ req.id }}">
+                            <button type="submit" name="action" value="approve" class="btn btn-approve">
+                                ✓ Одобрить
+                            </button>
+                            <button type="submit" name="action" value="reject" class="btn btn-reject">
+                                ✕ Отклонить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Одобренные заявки -->
+        {% if approved_requests %}
+        <div class="section">
+            <h2>✓ Одобренные заявки ({{ approved_requests|length }})</h2>
+            {% for req in approved_requests %}
+                <div class="request-card approved">
+                    <div class="request-header">
+                        <div class="request-title">
+                            <div class="product-name">{{ req.product_name }}</div>
+                            <div class="requested-by">Запросил: {{ req.created_by.name }}</div>
+                        </div>
+                        <div class="request-status">
+                            <div class="status-badge status-approved">✓ Одобрено</div>
+                        </div>
+                    </div>
+
+                    <div class="request-details">
+                        <div class="detail">
+                            <div class="detail-label">Количество</div>
+                            <div class="detail-value">{{ req.quantity }}{{ req.unit }}</div>
+                        </div>
+                        <div class="detail">
+                            <div class="detail-label">Одобрено</div>
+                            <div class="detail-value">{{ req.approval_date|date:"d.m.Y H:i" }}</div>
+                        </div>
+                        <div class="detail">
+                            <div class="detail-label">Администратор</div>
+                            <div class="detail-value">{{ req.approved_by.name }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Пусто -->
+        {% if not pending_requests and not approved_requests %}
+            <div class="section">
+                <div class="empty-message">
+                    🎉 Нет активных заявок на одобрение
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -10,11 +10,14 @@
 </head>
 <body>
     <div class="auth-wrapper">
+        <div class="auth-background"></div>
         <div class="login-container">
-            <a href="/" class="back-link">← Вернуться</a>
+            <a href="/" class="back-link">Вернуться</a>
             
-            <h1>Регистрация</h1>
-            <p class="welcome-text">Создайте аккаунт для начала работы</p>
+            <div class="auth-header">
+                <h1>Регистрация</h1>
+                <p class="welcome-text">Создайте аккаунт для начала работы</p>
+            </div>
 
             {% if messages %}
                 <div class="messages">
@@ -37,13 +40,23 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="role">Ваша роль</label>
+                    <select id="role" name="role" required>
+                        <option value="">Выберите роль</option>
+                        <option value="student">Ученик</option>
+                        <option value="chef">Повар</option>
+                        <option value="admin">Администратор</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="password">Пароль</label>
                     <input type="password" id="password" name="password" placeholder="••••••••" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="Repeat_password">Подтвердите пароль</label>
-                    <input type="password" id="Repeat_password" name="Repeat_password" placeholder="••••••••" required>
+                    <label for="password2">Подтверждение пароля</label>
+                    <input type="password" id="password2" name="password2" placeholder="••••••••" required>
                 </div>
 
                 <button type="submit" class="btn-submit">Зарегистрироваться</button>
