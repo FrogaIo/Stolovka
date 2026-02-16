@@ -87,6 +87,7 @@ body {
     padding: 20px 0;
     justify-content: flex-start;
     margin-bottom: 40px;
+    margin: 0 auto;
 }
 
 .day-card {

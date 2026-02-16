@@ -8,8 +8,7 @@ class Lunch(models.Model):
     drink = models.CharField(max_length=255)
     calories = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    contains_allergens = models.CharField(max_length=500, blank=True)  # Молоко, орехи и т.д.
-    
+    contains_allergens = models.CharField(max_length=500, blank=True)
     def __str__(self):
         return f"Обед: {self.main}"
 

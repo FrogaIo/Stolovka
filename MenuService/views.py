@@ -44,7 +44,6 @@ def home(request):
     return render(request, 'home.html', context)
 
 def add(request):
-    """Добавить меню (только для администратора)"""
     if request.method == 'POST':
         soupL = request.POST.get('soup')
         mainL = request.POST.get('main')
